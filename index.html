@@ -10,6 +10,9 @@
       margin: 0;
       padding: 0;
     }
+    button, .controls {
+      touch-action: manipulation;
+    }
     body {
       background-color: #00d5ff;
       font-family: Arial, sans-serif;
@@ -298,7 +301,7 @@
       border: 1px solid #b537f2;
       background-color: #000;
       color: #fff;
-      font-size: 14px;
+      font-size: 16px;
     }
     .submit-btn {
       width: 100%;
@@ -337,6 +340,42 @@
       cursor: pointer;
     }
     .empty { visibility: hidden; }
+
+    @media (max-width: 600px) {
+      #invitation-screen {
+        padding: 16px 10px 28px;
+      }
+
+      .tombstone-card {
+        border-radius: 70px 70px 16px 16px;
+        padding: 28px 16px;
+        margin-top: 8px;
+      }
+
+      .tombstone-card h2 {
+        font-size: 22px;
+        gap: 6px;
+        letter-spacing: 1px;
+      }
+
+      .pumpkin-line {
+        font-size: 20px;
+      }
+
+      .event-detail {
+        font-size: 16px;
+      }
+
+      .rsvp-box h3 {
+        font-size: 18px;
+        line-height: 1.25;
+      }
+
+      .rsvp-choice,
+      .submit-btn {
+        min-height: 48px;
+      }
+    }
   </style>
 </head>
 <body>
