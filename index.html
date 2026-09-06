@@ -90,21 +90,44 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
 
-    /* ---------------- JUMP SCARE OVERLAY ---------------- */
     #scare-overlay {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      inset: 0;
       background-color: #000;
       z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
     #scare-video {
+      width: min(88vw, 420px);
+      height: min(78vh, 747px);
+      aspect-ratio: 9 / 16;
+      max-width: 100%;
+      max-height: 80svh;
+      object-fit: contain;
+      background: #000;
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+      display: block;
+    }
+    @media (max-width: 600px) {
+      #scare-video {
+        width: min(88vw, calc(80svh * 9 / 16));
+        height: min(80svh, calc(88vw * 16 / 9));
+        max-height: 80svh;
+      }
+    }
+    .rsvp-image {
+      display: block;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      max-width: 240px;
+      height: auto;
+      margin: 18px auto 20px;
+      border-radius: 12px;
+      border: 2px solid #b537f2;
+      box-shadow: 0 0 20px rgba(181, 55, 242, 0.6);
     }
 
     /* ---------------- HALLOWEEN INVITATION SCREEN ---------------- */
@@ -160,12 +183,25 @@
 
     .tombstone-card h2 {
       font-family: 'Impact', sans-serif;
-      font-size: 42px;
+      font-size: 30px;
       color: #e040fb;
       text-transform: uppercase;
       letter-spacing: 2px;
       text-shadow: 0 0 12px #e040fb, 0 0 25px #8e05c2;
       margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+    }
+    .pumpkin-line {
+      font-size: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
     }
 
     .event-detail {
@@ -214,6 +250,37 @@
       text-shadow: 0 0 10px #00ffff;
       margin-bottom: 15px;
       font-size: 22px;
+    }
+    .rsvp-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin: 10px 0 14px;
+    }
+    .rsvp-choice {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 2px solid #ff9e00;
+      background: rgba(255, 158, 0, 0.1);
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+      text-align: left;
+    }
+    .rsvp-choice.selected {
+      background: linear-gradient(90deg, #ff6600, #ff0055);
+      border-color: #fff;
+      box-shadow: 0 0 15px rgba(255, 0, 85, 0.7);
+    }
+    .rsvp-status {
+      min-height: 22px;
+      margin-top: 8px;
+      color: #00ffff;
+      font-size: 14px;
+      font-weight: bold;
     }
     .form-group {
       margin-bottom: 12px;
@@ -281,8 +348,7 @@
     </div>
     <div class="instructions">
       Test your skills!<br>
-      Try to reach the goal without touching the walls<br>
-      How steady is your hand?<br>
+      Can you get through all these whack ass mazes?<br>
       Let's find out! Try and beat all three levels!
     </div>
     <div class="hint">sound effects will help</div>
@@ -305,13 +371,12 @@
 
   <div id="scare-overlay">
     <video id="scare-video" playsinline preload="auto">
-      <source src="video.mov" type="video/quicktime">
-      <source src="video.mov" type="video/mp4">
+      <source src="video.mp4" type="video/mp4">
     </video>
   </div>
 
   <audio id="bg-music" loop>
-    <source src="spooky-music.mp3" type="audio/mpeg">
+    <source src="music.mp3" type="audio/mpeg">
   </audio>
 
   <div id="invitation-screen">
@@ -322,7 +387,12 @@
     <button class="music-btn" onclick="toggleMusic()">🔊 Toggle Music</button>
 
     <div class="tombstone-card">
-      <h2>🎃 HALLOWEEN PEDA 🎃</h2>
+      <h2>
+        <span class="pumpkin-line">🎃</span>
+        <span>HALLOWEEN PEDA</span>
+        <span class="pumpkin-line">🎃</span>
+      </h2>
+      <img class="rsvp-image" src="halloween.jpg" alt="Halloween invitation art">
 
       <div class="event-detail">
         📅 Friday, October 9th<br>
@@ -334,30 +404,31 @@
       </div>
 
       <div class="rsvp-box">
-        <h3>CONFIRMA TU ASISTENCIA</h3>
-        <form onsubmit="handleRSVP(event)">
+        <h3>IF YOU WANNA COME ON DOWN COME ON DOWN</h3>
+        <form onsubmit="saveRSVP(event)">
           <div class="form-group">
-            <label for="name">Tu Nombre / Tu Apodo:</label>
-            <input type="text" id="name" required placeholder="Ej. El Chupacabras">
+            <label for="name">Who dis:</label>
+            <input type="text" id="name" required placeholder="Ex. El Chupacabras">
           </div>
           <div class="form-group">
-            <label for="attendance">¿Vas a asistir?</label>
-            <select id="attendance">
-              <option value="yes">¡Obvio que sí! 🍻</option>
-              <option value="maybe">Tal vez / Por confirmar 👀</option>
-              <option value="no">No puedo 😭</option>
-            </select>
+            <label>You in or are you a chud?</label>
+            <div class="rsvp-options">
+              <button type="button" class="rsvp-choice" data-value="yes" onclick="setRSVPChoice('yes')">Hell yeah 🍻</button>
+              <button type="button" class="rsvp-choice" data-value="maybe" onclick="setRSVPChoice('maybe')">Maybe 👀</button>
+              <button type="button" class="rsvp-choice" data-value="no" onclick="setRSVPChoice('no')">I'm a chud 😭</button>
+            </div>
+            <div id="rsvp-status" class="rsvp-status">Pick your answer below.</div>
           </div>
           <div class="form-group">
-            <label for="guests">Acompañantes (+1s):</label>
+            <label for="guests">Plus ones (+1s):</label>
             <select id="guests">
-              <option value="0">Voy solo/a</option>
-              <option value="1">+1 Persona</option>
-              <option value="2">+2 Personas</option>
-              <option value="3+">+3 o más</option>
+              <option value="0">Flying solo</option>
+              <option value="1">+1 person</option>
+              <option value="2">+2 people</option>
+              <option value="3+">+3 or more</option>
             </select>
           </div>
-          <button type="submit" class="submit-btn">ENVIAR RSVP</button>
+          <button type="submit" class="submit-btn">SAVE MY RSVP</button>
         </form>
       </div>
     </div>
@@ -422,9 +493,19 @@
 
     let player = { x: 1, y: 1 };
 
+    function showInvitation() {
+      invitationShown = true;
+      gameScreen.style.display = 'none';
+      inviteScreen.style.display = 'flex';
+      document.body.style.backgroundColor = '#0d001a';
+      document.body.style.color = '#fff';
+      bgMusic.play().catch(() => console.log('Audio autoplay prevented'));
+    }
+
     function startGame() {
       startScreen.style.display = 'none';
       gameScreen.style.display = 'flex';
+      inviteScreen.style.display = 'none';
       document.body.style.backgroundColor = '#111';
       document.body.style.color = '#fff';
       initLevel();
@@ -495,15 +576,26 @@
       }
     }
 
-    function triggerJumpScare() {
-      scareOverlay.style.display = 'block';
-      scareVideo.play().catch(e => console.log(e));
+    let invitationShown = false;
 
-      // Trigger invitation after video completes
+    function triggerJumpScare() {
+      invitationShown = false;
+      scareOverlay.style.display = 'flex';
+      scareVideo.muted = false;
+      scareVideo.volume = 1;
+      scareVideo.currentTime = 0;
+
+      scareVideo.play().catch(() => {
+        console.log('Video autoplay blocked or failed; showing invitation fallback.');
+        showInvitation();
+      });
+
       scareVideo.onended = () => {
-        scareOverlay.style.display = 'none';
-        inviteScreen.style.display = 'flex';
-        bgMusic.play().catch(e => console.log("Audio autoplay prevented"));
+        showInvitation();
+      };
+
+      scareVideo.onerror = () => {
+        showInvitation();
       };
     }
 
@@ -515,10 +607,83 @@
       }
     }
 
-    function handleRSVP(event) {
+    let selectedRSVP = '';
+    const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzSYVYYRHB4pK5Wm1MHNwj74qV1e2R2CnRjL9_fXQA5U7j4FQNLA2eVQtgdadzxheA/exec';
+
+    function setRSVPChoice(value) {
+      selectedRSVP = value;
+      const choices = document.querySelectorAll('.rsvp-choice');
+      choices.forEach((choice) => {
+        choice.classList.toggle('selected', choice.dataset.value === value);
+      });
+
+      const labels = {
+        yes: 'Hell yeah 🍻',
+        maybe: 'Maybe 👀',
+        no: "I'm a chud 😭"
+      };
+
+      const status = document.getElementById('rsvp-status');
+      status.textContent = `Selected: ${labels[value]}`;
+    }
+
+    function saveRSVP(event) {
       event.preventDefault();
-      const name = document.getElementById('name').value;
-      alert(`¡Gracias ${name}! Tu respuesta ha sido enviada. 🔥`);
+
+      const name = document.getElementById('name').value.trim();
+      const attendance = selectedRSVP;
+      const guests = document.getElementById('guests').value;
+
+      if (!attendance) {
+        const status = document.getElementById('rsvp-status');
+        status.textContent = 'Pick a response first, then save it.';
+        return;
+      }
+
+      const attendanceText = {
+        yes: 'Hell yeah 🍻',
+        maybe: 'Maybe 👀',
+        no: "I'm a chud 😭"
+      }[attendance] || attendance;
+
+      const guestText = {
+        0: 'Flying solo',
+        1: '+1 person',
+        2: '+2 people',
+        '3+': '+3 or more'
+      }[guests] || guests;
+
+      const payload = {
+        name,
+        attendance: attendanceText,
+        plusOnes: guestText,
+        savedAt: new Date().toISOString()
+      };
+
+      const status = document.getElementById('rsvp-status');
+      if (!RSVP_ENDPOINT) {
+        localStorage.setItem('halloween-rsvp', JSON.stringify(payload));
+        status.textContent = `Saved on this device! ${name || 'Friend'} is ${attendanceText}.`;
+        event.target.reset();
+        selectedRSVP = '';
+        document.querySelectorAll('.rsvp-choice').forEach((choice) => choice.classList.remove('selected'));
+        return;
+      }
+
+      status.textContent = 'Saving your RSVP...';
+      fetch(RSVP_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      }).then(() => {
+        status.textContent = `Saved! ${name || 'Friend'} is ${attendanceText}.`;
+        event.target.reset();
+        selectedRSVP = '';
+        document.querySelectorAll('.rsvp-choice').forEach((choice) => choice.classList.remove('selected'));
+      }).catch(() => {
+        status.textContent = 'Could not save right now. Please try again.';
+      });
     }
 
     window.addEventListener('keydown', (e) => {
