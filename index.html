@@ -393,12 +393,13 @@
       }
 
       #invitation-screen {
-        padding: 16px 10px 28px;
+        padding: 12px 8px 88px;
+        scroll-padding-bottom: 88px;
       }
 
       .tombstone-card {
         border-radius: 70px 70px 16px 16px;
-        padding: 28px 16px;
+        padding: 22px 14px;
         margin-top: 8px;
       }
 
@@ -413,7 +414,18 @@
       }
 
       .event-detail {
+        margin: 10px 0;
         font-size: 16px;
+      }
+
+      .rsvp-image {
+        max-width: 190px;
+        margin: 10px auto 12px;
+      }
+
+      .rsvp-box {
+        padding-top: 14px;
+        margin-top: 16px;
       }
 
       .rsvp-box h3 {
@@ -424,6 +436,23 @@
       .rsvp-choice,
       .submit-btn {
         min-height: 48px;
+      }
+
+      .rsvp-options {
+        gap: 6px;
+        margin: 8px 0 10px;
+      }
+
+      .rsvp-choice {
+        padding: 10px 12px;
+      }
+
+      .submit-btn {
+        position: sticky;
+        bottom: 10px;
+        z-index: 3;
+        border: 2px solid #fff;
+        box-shadow: 0 0 18px #ff0055, 0 4px 12px rgba(0, 0, 0, 0.8);
       }
     }
   </style>
