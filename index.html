@@ -57,9 +57,24 @@
       margin-bottom: 25px;
     }
     .hint {
-      font-style: italic;
-      font-size: 16px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #8b0000;
+      text-transform: uppercase;
+      text-shadow: 1px 1px #fff;
       margin-bottom: 25px;
+      animation: volume-alert 0.8s steps(2, end) infinite;
+    }
+
+    @keyframes volume-alert {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(1.08); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hint {
+        animation: none;
+      }
     }
     .play-btn {
       background-color: #000;
@@ -454,6 +469,10 @@
         border: 2px solid #fff;
         box-shadow: 0 0 18px #ff0055, 0 4px 12px rgba(0, 0, 0, 0.8);
       }
+
+      .rsvp-scroll-space {
+        height: 180px;
+      }
     }
   </style>
 </head>
@@ -469,7 +488,7 @@
       Can you get through all these whack ass mazes?<br>
       Let's find out! Try and beat all three levels!
     </div>
-    <div class="hint">sound effects will help</div>
+    <div class="hint">SOUND EFFECTS WILL HELP! TURN IT UP!</div>
     <button class="play-btn" onclick="startGame()">PLAY</button>
   </div>
 
@@ -547,6 +566,7 @@
             </select>
           </div>
           <button type="submit" class="submit-btn">SAVE MY RSVP</button>
+          <div class="rsvp-scroll-space" aria-hidden="true"></div>
         </form>
       </div>
     </div>
